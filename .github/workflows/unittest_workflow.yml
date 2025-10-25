@@ -1,0 +1,58 @@
+name: Financial Calculator - Unittest CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  unittest:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, '3.10']
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run unittest with verbose output
+      run: |
+        python -m unittest test.test_unittest -v
+
+    - name: Run unittest with XML output (using pytest to generate XML for unittest)
+      run: |
+        pytest test/test_unittest.py --junitxml=unittest-report.xml -v
+
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: unittest-results-python-${{ matrix.python-version }}
+        path: unittest-report.xml
+
+    - name: Display unittest summary
+      if: always()
+      run: |
+        echo " Financial Calculator unittest execution completed"
+        echo " Test framework: Python unittest"
+        echo " Python version: ${{ matrix.python-version }}"
+
+    - name: Notify on success
+      if: success()
+      run: echo " All Financial Calculator unittests passed successfully!"
+
+    - name: Notify on failure
+      if: failure()
+      run: echo " Financial Calculator unittests failed. Please review the code and tests."
