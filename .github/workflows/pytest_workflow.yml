@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, '3.10']
+        python-version: ["3.8", "3.9", "3.10"]
 
     steps:
     - name: Checkout code
@@ -31,16 +31,9 @@ jobs:
       run: |
         pytest --cov=src --cov-report=xml --cov-report=html --junitxml=pytest-report.xml -v
 
-    - name: Upload coverage to Codecov (optional)
-      if: matrix.python-version == '3.9'
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage.xml
-        fail_ci_if_error: false
-
     - name: Upload test results
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: test-results-python-${{ matrix.python-version }}
         path: |
@@ -51,16 +44,16 @@ jobs:
       if: always()
       run: |
         if [ -f pytest-report.xml ]; then
-          echo "✅ Financial Calculator tests completed"
-          echo "📊 Test report generated: pytest-report.xml"
+          echo " Financial Calculator tests completed"
+          echo " Test report generated: pytest-report.xml"
         else
-          echo "❌ Tests failed - no report generated"
+          echo " Tests failed - no report generated"
         fi
 
     - name: Notify on success
       if: success()
-      run: echo "🎉 All Financial Calculator tests passed successfully!"
+      run: echo " All Financial Calculator tests passed successfully!"
 
     - name: Notify on failure
       if: failure()
-      run: echo "❌ Financial Calculator tests failed. Please check the logs."
+      run: echo " Financial Calculator tests failed. Please check the logs."
