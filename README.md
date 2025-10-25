@@ -1,4 +1,4 @@
-# 💰 Financial Calculator MLOps Lab
+#  Financial Calculator MLOps Lab
 
 [![Financial Calculator - Pytest CI](https://github.com/uXmii/financial-calculator-mlops/actions/workflows/pytest_workflow.yml/badge.svg)](https://github.com/uXmii/financial-calculator-mlops/actions/workflows/pytest_workflow.yml)
 [![Financial Calculator - Unittest CI](https://github.com/uXmii/financial-calculator-mlops/actions/workflows/unittest_workflow.yml/badge.svg)](https://github.com/uXmii/financial-calculator-mlops/actions/workflows/unittest_workflow.yml)
@@ -101,7 +101,7 @@ python -m unittest test.test_unittest -v
 python -m unittest test.test_unittest.TestFinancialCalculator -v
 ```
 
-## 💻 Usage Examples
+##  Usage Examples
 
 ### Compound Interest Calculation
 ```python
